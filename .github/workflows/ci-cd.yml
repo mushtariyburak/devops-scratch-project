@@ -1,29 +1,30 @@
 name: DevOps Scratch Project CI/CD
 
+# 1. Pipeline qachon ishga tushsin?
 on:
   push:
-    branches: [ "main" ]  
+    branches: [ "main" ]  # main tarmog'iga har gal yangi kod push qilinganda
 
 jobs:
-  
+  # 2. Loyihani build (tekshirish) bosqichi
   build-and-test:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest  # GitHub bizga beradigan tekin virtual kompyuter
 
     steps:
-    
+    # A. GitHub-dagi kodimizni shu virtual kompyuter ichiga ko'chirib oladi
     - name: Check out repository code
       uses: actions/checkout@v4
 
-    
+    # B. Virtual kompyuter ichida Docker muhitini tayyorlaydi
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-    
+    # C. Biz yaratgan Dockerfile asosida loyihani build qilib tekshiradi
     - name: Build Docker Image
       run: |
         docker build -t my-devops-app:latest .
         
-    
+    # D. Hammasi to'g'ri yig'ilganini docker-compose orqali tekshirib ko'radi
     - name: Test with Docker Compose
       run: |
         docker compose up -d
